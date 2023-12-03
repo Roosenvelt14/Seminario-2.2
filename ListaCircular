@@ -171,7 +171,7 @@ else:
     print(f"El elemento {Encontrar} no esta en la lista circular")
 
 No_esta = 502
-if lista.buscarElemento(Encontrar):
+if lista.buscarElemento(No_esta):
     print(f"El elemento {No_esta} esta en la lista circular")
 else:
     print(f"El elemento {No_esta} no esta en la lista circular")
