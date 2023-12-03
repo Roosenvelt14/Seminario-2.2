@@ -1,0 +1,130 @@
+class nodo():
+    def __init__(self, dato):  # Constructor
+        self.dato = dato
+        self.siguiente = None  # crear puntero siguiente.
+
+
+class listaCircular():
+    def __init__(self):  # Constructor
+        self.primero = None  # puntero que hace referencia al primero
+        self.ultimo = None  # puntero hace referencia al ultimo
+
+    def Vacia(self):  # Metodo para retornar si la lista esta vacia
+        return self.primero == None
+
+    def agregarInicio(self, dato):  # Meotodo para agregar al principio
+        if self.Vacia():
+            self.primero = self.ultimo = nodo(dato)  # Nodo recibe un dato qu
+
+        else:
+            aux = nodo(dato)
+            aux.siguiente = self.primero
+            self.primero = aux
+            self.ultimo.siguiente = self.primero
+
+    def agregarFinal(self, dato):  # Metodo para agregar al final
+        if self.Vacia():
+            self.primero = self.ultimo = nodo(dato)
+            self.ultimo.siguiente = self.primero
+        else:
+            aux = self.ultimo
+            self.ultimo = aux.siguiente = nodo(dato)
+            self.ultimo.siguiente = self.primero
+
+    # Metodo para agregar luego de una posicion especifica
+    def insertarPosicion(self, dato, pos):
+        nuevoNodo = nodo(dato)
+
+        if pos == 0:
+            nuevoNodo.siguiente = self.primero
+            self.primero = nuevoNodo
+        else:
+            aux = self.primero
+            contador = 0
+
+            # Ir a la posicion anterior a la que insertaremos el valor.
+            while aux is not None and contador < pos - 1:
+                aux = aux.siguiente
+                contador += 1
+
+            # Revisar que la posicion es valida
+            if aux is None:
+                print("Posicion erronea")
+                return
+
+            # insertar el nodo nuevo en la posicion especifica.
+            nuevoNodo.siguiente = aux.siguiente
+            aux.siguiente = nuevoNodo
+
+    # ELIMINAR::::
+    def eliminarInicio(self):  # Metodo para eliminar el nodo inicial
+        if self.Vacia():
+            print("Lista vacia no se puede eliminar el primer nodo")
+        elif self.primero == self.ultimo:
+            self.primero = self.ultimo = None
+        else:
+            self.primero = self.primero.siguiente
+            self.ultimo.siguiente = self.primero
+
+    def eliminarFinal(self):  # Metodo para eliminar el ultimo nodo
+        if self.Vacia():
+            print("Lista vacia no se puede eliminar el ultimo nodo")
+        elif self.primero == self.ultimo:
+            self.primero = self.ultimo = None
+        else:
+            aux = self.primero
+            while aux.siguiente != self.ultimo:
+                aux = aux.siguiente
+            aux.siguiente = self.primero
+            self.ultimo = aux
+
+    def eliminarPosicion(self, pos):
+        if self.Vacia():
+            print("Lista vacia, no se puede eliminar el nodo indicado")
+        elif pos == 0:
+            self.eliminarInicio()
+        else:
+            aux = self.primero
+            contador = 0
+
+            while aux is not None and contador < pos - 1:
+                aux = aux.siguiente
+                contador += 1
+
+            if aux is None or aux.siguiente is None:
+                print("Posición inválida para eliminar")
+                return
+
+            aux.siguiente = aux.siguiente.siguiente
+            if aux.siguiente is None:
+                self.ultimo = aux
+            if pos == 1:
+                self.primero = aux.siguiente
+
+    def Recorrer(self):  # Metodo para mostrar la lista.
+        aux = self.primero
+        while aux.siguiente != self.primero:
+            print(aux.dato)
+            aux = aux.siguiente
+        print(aux.dato)
+
+
+lista = listaCircular()
+
+lista.agregarFinal(55)
+lista.agregarFinal(88)
+lista.agregarFinal(99)
+lista.agregarFinal(111)
+lista.agregarFinal(222)
+
+lista.agregarInicio(00)
+lista.agregarInicio(11)
+
+lista.insertarPosicion(14, 1)
+
+lista.eliminarInicio()
+lista.eliminarFinal()
+lista.eliminarPosicion(2)
+
+
+lista.Recorrer()
